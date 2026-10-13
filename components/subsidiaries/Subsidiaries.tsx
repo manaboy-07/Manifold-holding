@@ -53,6 +53,7 @@ interface CompanyItem {
   img2: string;
   role: string;
   summary: string;
+  image: string;
   caps: { icon: LucideIcon; t: string; d: string }[];
 }
 
