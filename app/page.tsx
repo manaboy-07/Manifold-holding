@@ -21,7 +21,7 @@ import {
   SubLogo,
   TextLink,
 } from "@/components/site";
-
+import Image from "next/image";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
@@ -181,6 +181,7 @@ const HOME_SUBS = [
     code: "MCL",
     name: "Manifold Computers Limited",
     to: "/subsidiaries/manifold-computers",
+    logo: "/logos/mcl-logo.png",
     img: IMG.mcl,
     title: "The foundation behind enterprise technology.",
     copy: "Manifold Computers Limited builds and supports the technology environments organisations rely on every day — from networks and datacentres to end-user systems, enterprise platforms and managed infrastructure.",
@@ -197,6 +198,7 @@ const HOME_SUBS = [
     code: "MES",
     name: "Manifold Enterprise Solutions",
     to: "/subsidiaries/manifold-enterprise-solutions",
+    logo: "/logos/meslogo2.png",
     img: IMG.mes,
     title: "Building what comes next.",
     copy: "Manifold Enterprise Solutions helps organisations modernise operations and develop new digital capabilities across cloud, cybersecurity, software, automation, Data & AI.",
@@ -281,7 +283,13 @@ function SubsidiariesSection() {
                 />
               </Link>
               <div className="mt-8">
-                <SubLogo code={s.code} name={s.name} light={true} />
+                {/* <SubLogo code={s.code} name={s.name} light={true} /> */}
+                <Image
+                  src={s.logo}
+                  width={150}
+                  height={150}
+                  alt="Manifold Computers logo"
+                />
               </div>
               <h3 className="mt-6 text-xl sm:text-2xl font-bold tracking-tight lg:text-[1.75rem]">
                 {s.title}

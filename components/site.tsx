@@ -11,6 +11,8 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
+import Image, { type ImageProps } from "next/image";
+
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -53,7 +55,7 @@ export const OFFICES = [
     x: 312,
     y: 318,
     d: "The group’s head office, home to Manifold leadership and the central delivery, commercial and support functions that serve clients across the region.",
-    address: "Plot 1435 Sanusi Fafunwa St, Victoria Island, Lagos",
+    address: " Leadway Marble House 1 Alfred Rewane Road Ikoyi Lagos, Nigeria",
   },
   {
     city: "Abuja",
@@ -62,7 +64,8 @@ export const OFFICES = [
     x: 395,
     y: 236,
     d: "Supports public sector institutions and enterprises headquartered in the Federal Capital Territory and northern Nigeria.",
-    address: "Central Business District, Abuja, FCT",
+    address:
+      "Plot 1854 Mahathir Mohammed Street Off T. Y. Danjuma Street Asokoro, Abuja Nigeria",
   },
   {
     city: "Port Harcourt",
@@ -71,7 +74,8 @@ export const OFFICES = [
     x: 382,
     y: 352,
     d: "Positioned close to the oil, gas and energy operators of the Niger Delta, providing local delivery and on-site support.",
-    address: "Trans-Amadi Industrial Layout, Port Harcourt",
+    address:
+      "35 Trans-Amadi Road Rumuobioakani Port Harcourt, Rivers State Nigeria",
   },
   {
     city: "Accra",
@@ -80,19 +84,22 @@ export const OFFICES = [
     x: 196,
     y: 334,
     d: "Extends the group’s delivery and support capability to organisations operating in Ghana.",
-    address: "Airport Residential Area, Accra, Ghana",
+    address:
+      "House Number 3 Near Total Filling Station, Agbogba Pademmelon Street Accra, Ghana",
   },
 ];
 
 export const SUBS = [
   {
     code: "MCL",
+    image: "/logos/mcl-logo.png",
     name: "Manifold Computers Limited",
     to: "/subsidiaries/manifold-computers",
     desc: "Enterprise infrastructure, networks, datacentres & managed platforms.",
   },
   {
     code: "MES",
+    image: "/logos/meslogo.png",
     name: "Manifold Enterprise Solutions",
     to: "/subsidiaries/manifold-enterprise-solutions",
     desc: "Cloud, cybersecurity, data, AI, software engineering & automation.",
@@ -105,10 +112,7 @@ export const NAV: NavItem[] = [
   { label: "About Us", to: "/about" },
   { label: "Subsidiaries", to: "/subsidiaries", sub: SUBS },
   { label: "Our Reach", to: "/reach" },
-  { label: "Contact", to: "/contact" },
 ];
-
-/* ---------- Primitives: original colors and public prop names retained ---------- */
 
 export function Container({
   className = "",
@@ -954,31 +958,12 @@ export function Logo({ dark = false }: { dark?: boolean }) {
       className="group flex items-center gap-3 transition-transform duration-200 motion-safe:hover:scale-[1.02]"
       aria-label="Manifold Holdings home"
     >
-      <div className="relative flex size-8 items-center justify-center rounded-lg bg-magenta text-white shadow-md transition-shadow group-hover:shadow-magenta/30 sm:size-9">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 34 34"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M8 24V10l9 9 9-9v14"
-            stroke="#fff"
-            strokeWidth="3.2"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
-      <span className={`leading-none ${dark ? "text-black" : "text-white"}`}>
-        <span className="block text-[15px] font-bold tracking-tight sm:text-base">
-          Manifold
-        </span>
-        <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-[0.28em] opacity-55">
-          Holdings
-        </span>
-      </span>
+      <Image
+        src={dark ? "/logos/manifoldb.png" : "/logos/manifoldw.png"}
+        width={150}
+        height={150}
+        alt="Manifold Holdings logo"
+      />
     </Link>
   );
 }

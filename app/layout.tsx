@@ -78,7 +78,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           Skip to content
         </a>
 
-        {/* The corrected Navigation includes its own Suspense boundary. */}
         <Navigation />
 
         <main
@@ -89,7 +88,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <MotionShell>{children}</MotionShell>
         </main>
 
-        {/* The corrected Footer calculates its year inside useEffect. */}
         <Footer />
       </body>
     </html>

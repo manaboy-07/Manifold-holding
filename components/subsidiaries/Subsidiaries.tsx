@@ -2,17 +2,39 @@
 
 import { useRef, type ReactNode, type RefObject } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Server, Network, Database, Monitor, AppWindow, Headset,
-  Cloud, BrainCircuit, ShieldCheck, Code2, Workflow,
-  CheckCircle2, ArrowRight, ArrowUpRight, type LucideIcon,
+  Server,
+  Network,
+  Database,
+  Monitor,
+  AppWindow,
+  Headset,
+  Cloud,
+  BrainCircuit,
+  ShieldCheck,
+  Code2,
+  Workflow,
+  CheckCircle2,
+  ArrowRight,
+  ArrowUpRight,
+  type LucideIcon,
 } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import {
-  Button, Container, Eyebrow, H2, IMG, Img, M, PageHero,
-  Prose, Reveal, SubLogo,
+  Button,
+  Container,
+  Eyebrow,
+  H2,
+  IMG,
+  Img,
+  M,
+  PageHero,
+  Prose,
+  Reveal,
+  SubLogo,
 } from "@/components/site";
 
 // useGSAP uses an effect on the server and a layout effect in the browser.
@@ -40,6 +62,7 @@ const COMPANIES = {
     name: "Manifold Computers Limited",
     short: "Manifold Computers",
     to: "/subsidiaries/manifold-computers",
+    image: "/logos/mcl-logo.png",
     img: IMG.mcl,
     img2: IMG.mclAlt,
     role: "Enterprise technology foundations",
@@ -83,6 +106,7 @@ const COMPANIES = {
     name: "Manifold Enterprise Solutions",
     short: "Manifold Enterprise Solutions",
     to: "/subsidiaries/manifold-enterprise-solutions",
+    image: "/logos/meslogo.png",
     img: IMG.mes,
     img2: IMG.city,
     role: "Digital transformation and modernisation",
@@ -123,101 +147,160 @@ const COMPANIES = {
   },
 } satisfies Record<"mcl" | "mes", CompanyItem>;
 
-
 /** These attributes belong only to this page, so MotionShell will not animate them. */
 function useSubsidiaryMotion(rootRef: RefObject<HTMLDivElement | null>) {
-  useGSAP(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const media = gsap.matchMedia();
-    let disposed = false;
-    let refreshFrame = 0;
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+      const media = gsap.matchMedia();
+      let disposed = false;
+      let refreshFrame = 0;
 
-    const refresh = () => {
-      if (disposed) return;
-      cancelAnimationFrame(refreshFrame);
-      refreshFrame = requestAnimationFrame(() => {
-        if (!disposed) ScrollTrigger.refresh();
-      });
-    };
-
-    media.add(MOTION, () => {
-      root.querySelectorAll<HTMLElement>("[data-subs-reveal]").forEach((element) => {
-        // Preserve restored scroll positions and keyboard-focused content.
-        if (element.getBoundingClientRect().bottom <= 0 || element.contains(document.activeElement)) return;
-        gsap.fromTo(element,
-          { y: 26, opacity: 0 },
-          {
-            y: 0, opacity: 1, duration: 0.85, ease: "power3.out",
-            // Content remains visible until its own animation actually starts.
-            immediateRender: false,
-            clearProps: "transform,opacity",
-            scrollTrigger: {
-              trigger: element, start: "clamp(top 92%)", once: true,
-            },
-          },
-        );
-      });
-
-      root.querySelectorAll<HTMLElement>("[data-subs-rule]").forEach((element) => {
-        gsap.fromTo(element,
-          { scaleX: 0, transformOrigin: "left center" },
-          {
-            scaleX: 1, duration: 1.15, ease: "power3.inOut",
-            immediateRender: false,
-            clearProps: "transform,transformOrigin",
-            scrollTrigger: { trigger: element, start: "clamp(top 94%)", once: true },
-          },
-        );
-      });
-    }, root);
-
-    media.add(DESKTOP_MOTION, () => {
-      root.querySelectorAll<HTMLElement>("[data-subs-frame]").forEach((frame) => {
-        const image = frame.querySelector<HTMLElement>("[data-subs-image]");
-        if (!image) return;
-        gsap.fromTo(image, { yPercent: -3 }, {
-          yPercent: 3, ease: "none",
-          scrollTrigger: {
-            trigger: frame, start: "top bottom", end: "bottom top",
-            scrub: 0.7, invalidateOnRefresh: true,
-          },
+      const refresh = () => {
+        if (disposed) return;
+        cancelAnimationFrame(refreshFrame);
+        refreshFrame = requestAnimationFrame(() => {
+          if (!disposed) ScrollTrigger.refresh();
         });
-      });
-    }, root);
+      };
 
-    // Capture also catches images that finish loading after the initial render.
-    root.addEventListener("load", refresh, true);
-    root.addEventListener("error", refresh, true);
-    void document.fonts.ready.then(refresh);
-    refresh();
+      media.add(
+        MOTION,
+        () => {
+          root
+            .querySelectorAll<HTMLElement>("[data-subs-reveal]")
+            .forEach((element) => {
+              // Preserve restored scroll positions and keyboard-focused content.
+              if (
+                element.getBoundingClientRect().bottom <= 0 ||
+                element.contains(document.activeElement)
+              )
+                return;
+              gsap.fromTo(
+                element,
+                { y: 26, opacity: 0 },
+                {
+                  y: 0,
+                  opacity: 1,
+                  duration: 0.85,
+                  ease: "power3.out",
+                  // Content remains visible until its own animation actually starts.
+                  immediateRender: false,
+                  clearProps: "transform,opacity",
+                  scrollTrigger: {
+                    trigger: element,
+                    start: "clamp(top 92%)",
+                    once: true,
+                  },
+                },
+              );
+            });
 
-    return () => {
-      disposed = true;
-      cancelAnimationFrame(refreshFrame);
-      root.removeEventListener("load", refresh, true);
-      root.removeEventListener("error", refresh, true);
-      media.revert();
-    };
-  }, { scope: rootRef });
+          root
+            .querySelectorAll<HTMLElement>("[data-subs-rule]")
+            .forEach((element) => {
+              gsap.fromTo(
+                element,
+                { scaleX: 0, transformOrigin: "left center" },
+                {
+                  scaleX: 1,
+                  duration: 1.15,
+                  ease: "power3.inOut",
+                  immediateRender: false,
+                  clearProps: "transform,transformOrigin",
+                  scrollTrigger: {
+                    trigger: element,
+                    start: "clamp(top 94%)",
+                    once: true,
+                  },
+                },
+              );
+            });
+        },
+        root,
+      );
+
+      media.add(
+        DESKTOP_MOTION,
+        () => {
+          root
+            .querySelectorAll<HTMLElement>("[data-subs-frame]")
+            .forEach((frame) => {
+              const image =
+                frame.querySelector<HTMLElement>("[data-subs-image]");
+              if (!image) return;
+              gsap.fromTo(
+                image,
+                { yPercent: -3 },
+                {
+                  yPercent: 3,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: frame,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 0.7,
+                    invalidateOnRefresh: true,
+                  },
+                },
+              );
+            });
+        },
+        root,
+      );
+
+      // Capture also catches images that finish loading after the initial render.
+      root.addEventListener("load", refresh, true);
+      root.addEventListener("error", refresh, true);
+      void document.fonts.ready.then(refresh);
+      refresh();
+
+      return () => {
+        disposed = true;
+        cancelAnimationFrame(refreshFrame);
+        root.removeEventListener("load", refresh, true);
+        root.removeEventListener("error", refresh, true);
+        media.revert();
+      };
+    },
+    { scope: rootRef },
+  );
 }
 
-function CompanyLink({ company, light = false }: { company: CompanyItem; light?: boolean }) {
+function CompanyLink({
+  company,
+  light = false,
+}: {
+  company: CompanyItem;
+  light?: boolean;
+}) {
   return (
     <Link
       href={company.to}
       className={`group inline-flex min-h-12 max-w-full items-center gap-4 rounded-full border px-5 py-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta motion-safe:transition-colors ${
-        light ? "border-white/25 text-white hover:border-magenta" : "border-black/20 text-black hover:border-magenta"
+        light
+          ? "border-white/25 text-white hover:border-magenta"
+          : "border-black/20 text-black hover:border-magenta"
       }`}
     >
       <span className="min-w-0">Explore {company.short}</span>
-      <ArrowUpRight aria-hidden="true" className="size-4 shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5" />
+      <ArrowUpRight
+        aria-hidden="true"
+        className="size-4 shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5"
+      />
     </Link>
   );
 }
 
-function CompanySection({ company, flip = false, dark = false }: {
-  company: CompanyItem; flip?: boolean; dark?: boolean;
+function CompanySection({
+  company,
+  flip = false,
+  dark = false,
+}: {
+  company: CompanyItem;
+  flip?: boolean;
+  dark?: boolean;
 }) {
   return (
     <section
@@ -228,17 +311,36 @@ function CompanySection({ company, flip = false, dark = false }: {
       <Container className="py-14 sm:py-20 lg:py-24">
         <div className="grid min-w-0 items-start gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
           <div className={`min-w-0 ${flip ? "lg:order-2" : ""}`}>
-            <div data-subs-frame className="relative aspect-[4/3] overflow-hidden rounded-sm sm:aspect-[16/11] lg:aspect-[4/5]">
+            <div
+              data-subs-frame
+              className="relative aspect-[4/3] overflow-hidden rounded-sm sm:aspect-[16/11] lg:aspect-[4/5]"
+            >
               <div data-subs-image className="absolute -inset-6">
-                <Img src={company.img} alt={company.name} className="h-full w-full" />
+                <Image
+                  src={company.image}
+                  width={60}
+                  height={60}
+                  alt="Manifold logo"
+                />
               </div>
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"
+              />
               <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 sm:p-8">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">A Manifold Holdings company</p>
-                  <p className="mt-2 text-5xl font-bold tracking-[-0.05em] text-white sm:text-6xl">{company.code}<span className="text-magenta">.</span></p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
+                    A Manifold Holdings company
+                  </p>
+                  <p className="mt-2 text-5xl font-bold tracking-[-0.05em] text-white sm:text-6xl">
+                    {company.code}
+                    <span className="text-magenta">.</span>
+                  </p>
                 </div>
-                <span aria-hidden="true" className="mb-1 h-px w-16 bg-magenta" />
+                <span
+                  aria-hidden="true"
+                  className="mb-1 h-px w-16 bg-magenta"
+                />
               </div>
             </div>
           </div>
@@ -246,20 +348,37 @@ function CompanySection({ company, flip = false, dark = false }: {
           <div className="min-w-0 lg:py-3">
             <div data-subs-reveal>
               <Eyebrow light={dark}>{company.role}</Eyebrow>
-              <h2 id={`${company.code}-title`} className="mt-5 text-balance text-3xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-4xl xl:text-[2.7rem]">
+              <h2
+                id={`${company.code}-title`}
+                className="mt-5 text-balance text-3xl font-bold leading-[1.12] tracking-[-0.035em] sm:text-4xl xl:text-[2.7rem]"
+              >
                 {company.name}
               </h2>
-              <p className={`mt-6 text-base leading-[1.8] sm:text-[17px] ${dark ? "text-white/70" : "text-black/70"}`}>
+              <p
+                className={`mt-6 text-base leading-[1.8] sm:text-[17px] ${dark ? "text-white/70" : "text-black/70"}`}
+              >
                 {company.summary}
               </p>
             </div>
 
-            <div data-subs-rule aria-hidden="true" className={`mt-8 h-px ${dark ? "bg-white/20" : "bg-black/15"}`} />
+            <div
+              data-subs-rule
+              aria-hidden="true"
+              className={`mt-8 h-px ${dark ? "bg-white/20" : "bg-black/15"}`}
+            />
             <ul className="grid grid-cols-1 gap-x-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               {company.caps.map(({ icon: Icon, t }) => (
-                <li key={t} data-subs-reveal className={`flex min-w-0 items-center gap-3 border-b py-4 text-sm ${dark ? "border-white/10 text-white/80" : "border-black/10 text-black/80"}`}>
+                <li
+                  key={t}
+                  data-subs-reveal
+                  className={`flex min-w-0 items-center gap-3 border-b py-4 text-sm ${dark ? "border-white/10 text-white/80" : "border-black/10 text-black/80"}`}
+                >
                   <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-magenta/10">
-                    <Icon aria-hidden="true" className="size-[18px] text-magenta" strokeWidth={1.5} />
+                    <Icon
+                      aria-hidden="true"
+                      className="size-[18px] text-magenta"
+                      strokeWidth={1.5}
+                    />
                   </span>
                   <span className="font-medium leading-relaxed">{t}</span>
                 </li>
@@ -277,25 +396,48 @@ function CompanySection({ company, flip = false, dark = false }: {
 
 function WhyTwo() {
   return (
-    <section aria-labelledby="subsidiaries-overview-title" className="bg-white py-16 text-black sm:py-20 lg:py-28">
+    <section
+      aria-labelledby="subsidiaries-overview-title"
+      className="bg-white py-16 text-black sm:py-20 lg:py-28"
+    >
       <Container>
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <div data-subs-reveal className="min-w-0 lg:col-span-5">
             <Eyebrow>Why two companies</Eyebrow>
-            <h2 id="subsidiaries-overview-title" className="mt-6 text-balance text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl">
+            <h2
+              id="subsidiaries-overview-title"
+              className="mt-6 text-balance text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl"
+            >
               Focused businesses with complementary <M>roles.</M>
             </h2>
           </div>
-          <div data-subs-reveal className="min-w-0 lg:col-span-6 lg:col-start-7">
+          <div
+            data-subs-reveal
+            className="min-w-0 lg:col-span-6 lg:col-start-7"
+          >
             <Prose>
-              <p>Enterprise infrastructure and digital transformation call for different disciplines, specialist teams and ways of engaging with clients.</p>
-              <p>Manifold Computers Limited concentrates on the foundations. Manifold Enterprise Solutions concentrates on what organisations build on those foundations.</p>
-              <p>Each invests deeply in its own field, while the group connects their expertise when clients need both.</p>
+              <p>
+                Enterprise infrastructure and digital transformation call for
+                different disciplines, specialist teams and ways of engaging
+                with clients.
+              </p>
+              <p>
+                Manifold Computers Limited concentrates on the foundations.
+                Manifold Enterprise Solutions concentrates on what organisations
+                build on those foundations.
+              </p>
+              <p>
+                Each invests deeply in its own field, while the group connects
+                their expertise when clients need both.
+              </p>
             </Prose>
           </div>
         </div>
 
-        <nav aria-label="Explore our companies" className="mt-12 grid gap-4 sm:mt-16 md:grid-cols-2 md:gap-6">
+        <nav
+          aria-label="Explore our companies"
+          className="mt-12 grid gap-4 sm:mt-16 md:grid-cols-2 md:gap-6"
+        >
           {[COMPANIES.mcl, COMPANIES.mes].map((company, index) => (
             <div key={company.code} data-subs-reveal className="min-w-0">
               <Link
@@ -303,16 +445,30 @@ function WhyTwo() {
                 className="group flex h-full min-w-0 flex-col rounded-xl border border-black/10 bg-[#f4f4f3] p-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta motion-safe:transition-[border-color,transform] motion-safe:duration-300 hover:border-magenta/50 motion-safe:hover:-translate-y-1 sm:p-8"
               >
                 <div className="flex items-center justify-between gap-4">
-                  <span className="rounded bg-magenta/10 px-3 py-1.5 text-xs font-bold tracking-[0.16em] text-magenta">{company.code}</span>
-                  <span aria-hidden="true" className="text-xs tabular-nums text-black/40">0{index + 1}</span>
+                  <span className="rounded bg-magenta/10 px-3 py-1.5 text-xs font-bold tracking-[0.16em] text-magenta">
+                    {company.code}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="text-xs tabular-nums text-black/40"
+                  >
+                    0{index + 1}
+                  </span>
                 </div>
-                <h3 className="mt-6 text-xl font-bold leading-snug tracking-tight sm:text-2xl">{company.name}</h3>
+                <h3 className="mt-6 text-xl font-bold leading-snug tracking-tight sm:text-2xl">
+                  {company.name}
+                </h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-black/65">
-                  {index === 0 ? "The environments organisations run on." : "The capabilities organisations build."}
+                  {index === 0
+                    ? "The environments organisations run on."
+                    : "The capabilities organisations build."}
                 </p>
                 <span className="mt-auto flex items-center justify-between gap-4 pt-8 text-sm font-semibold">
                   Explore company
-                  <ArrowRight aria-hidden="true" className="size-5 shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:translate-x-1" />
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="size-5 shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:translate-x-1"
+                  />
                 </span>
               </Link>
             </div>
@@ -327,19 +483,41 @@ function Together() {
   return (
     <section className="overflow-hidden bg-charcoal py-16 text-white sm:py-24 lg:py-28">
       <Container>
-        <div data-subs-rule aria-hidden="true" className="mb-10 h-px bg-white/15 sm:mb-14" />
+        <div
+          data-subs-rule
+          aria-hidden="true"
+          className="mb-10 h-px bg-white/15 sm:mb-14"
+        />
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <div data-subs-reveal className="min-w-0 lg:col-span-5">
             <Eyebrow light>The Group</Eyebrow>
-            <H2 light className="mt-6">Stronger <M>together.</M></H2>
+            <H2 light className="mt-6">
+              Stronger <M>together.</M>
+            </H2>
           </div>
-          <div data-subs-reveal className="min-w-0 lg:col-span-6 lg:col-start-7">
+          <div
+            data-subs-reveal
+            className="min-w-0 lg:col-span-6 lg:col-start-7"
+          >
             <Prose light>
-              <p className="text-lg font-medium text-white sm:text-xl">The value of the group goes beyond the capabilities of either company individually.</p>
-              <p>As enterprise environments become more interconnected, clients need technology partners that understand both the foundations they operate on and the digital capabilities they are building toward.</p>
-              <p>Our companies remain specialised while contributing to a wider view of the client’s technology environment.</p>
+              <p className="text-lg font-medium text-white sm:text-xl">
+                The value of the group goes beyond the capabilities of either
+                company individually.
+              </p>
+              <p>
+                As enterprise environments become more interconnected, clients
+                need technology partners that understand both the foundations
+                they operate on and the digital capabilities they are building
+                toward.
+              </p>
+              <p>
+                Our companies remain specialised while contributing to a wider
+                view of the client’s technology environment.
+              </p>
             </Prose>
-            <div className="mt-8"><Button to="/contact">Talk to Us</Button></div>
+            <div className="mt-8">
+              <Button to="/contact">Talk to Us</Button>
+            </div>
           </div>
         </div>
       </Container>
@@ -355,7 +533,11 @@ export function SubsidiariesPage() {
     <div ref={rootRef} className="min-w-0">
       <PageHero
         eyebrow="Our Subsidiaries"
-        title={<>Specialist businesses. Connected by one <M>vision.</M></>}
+        title={
+          <>
+            Specialist businesses. Connected by one <M>vision.</M>
+          </>
+        }
         copy="Manifold Holdings brings together companies with distinct areas of expertise and a shared commitment to helping organisations build stronger, more capable technology environments."
         img={IMG.facade}
       />
@@ -458,9 +640,7 @@ export function Profile(p: ProfileCopy) {
               Six areas of specialist <M>capability.</M>
             </H2>
           </Reveal>
-          <div
-            className="mt-12 sm:mt-16 grid border-t border-black md:grid-cols-2 lg:grid-cols-3"
-          >
+          <div className="mt-12 sm:mt-16 grid border-t border-black md:grid-cols-2 lg:grid-cols-3">
             {c.caps.map(({ icon: Icon, t, d }, i) => (
               <div
                 key={t}
@@ -568,7 +748,10 @@ export function Profile(p: ProfileCopy) {
                     {p.sibling.name}
                   </span>
                 </span>
-                <span aria-hidden="true" className="shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:translate-x-2 text-xl font-bold">
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 text-magenta motion-safe:transition-transform motion-safe:group-hover:translate-x-2 text-xl font-bold"
+                >
                   →
                 </span>
               </Link>
@@ -581,13 +764,18 @@ export function Profile(p: ProfileCopy) {
         <Container>
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
-              <SubLogo code={c.code} name={c.name} light={false} />
+              <Image
+                src={c.image}
+                width={150}
+                height={150}
+                alt="Manifold Computers logo"
+              />
               <H2 className="mt-8">Learn more about {c.short}.</H2>
             </div>
             <div className="lg:col-span-5 lg:col-start-8">
               <p className="text-base sm:text-[17px] leading-relaxed text-black/65">
-                Talk to our team about {c.short} and the capabilities that
-                best support your organisation.
+                Talk to our team about {c.short} and the capabilities that best
+                support your organisation.
               </p>
               <div className="mt-8">
                 <Button to="/contact">Talk to Us</Button>

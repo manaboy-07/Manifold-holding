@@ -32,3 +32,7 @@ body {
     animation: none;
   }
 }
+.text-magenta { color: #d60074; }
+.bg-magenta { background-color: #d60074; }
+.border-magenta { border-color: #d60074; }
+.bg-charcoal { background-color: #141416; }

@@ -197,9 +197,7 @@ export default function Contact() {
                       {o.city}, {o.country}
                     </p>
                     <p className="mt-1 text-sm text-magenta">{o.role}</p>
-                    <p className="mt-2 text-sm text-black/45">
-                      Address to be confirmed
-                    </p>
+                    <p className="mt-2 text-sm text-black/45">{o.address}</p>
                   </li>
                 ))}
               </ul>
