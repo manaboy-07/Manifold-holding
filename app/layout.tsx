@@ -88,7 +88,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <MotionShell>{children}</MotionShell>
         </main>
 
-        <Footer />
+        <Footer
+          linkedinUrl={
+            "https://www.linkedin.com/company/manifold-holdings/posts/?feedView=all"
+          }
+        />
       </body>
     </html>
   );

@@ -1449,7 +1449,7 @@ export function Footer({ linkedinUrl, policyLinks }: FooterProps = {}) {
               <li>
                 {linkedinUrl ? (
                   <a
-                    className={`${link} hover:text-magenta`}
+                    className={`${link} hover:text-magenta cursor-pointer`}
                     href={linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"

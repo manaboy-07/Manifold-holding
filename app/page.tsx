@@ -181,7 +181,7 @@ const HOME_SUBS = [
     code: "MCL",
     name: "Manifold Computers Limited",
     to: "/subsidiaries/manifold-computers",
-    logo: "/logos/mcl-logo.png",
+    logo: "/logos/mclw.png",
     img: IMG.mcl,
     title: "The foundation behind enterprise technology.",
     copy: "Manifold Computers Limited builds and supports the technology environments organisations rely on every day — from networks and datacentres to end-user systems, enterprise platforms and managed infrastructure.",
