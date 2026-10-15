@@ -1454,7 +1454,7 @@ export function Footer({ linkedinUrl, policyLinks }: FooterProps = {}) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    LinkedIn ↗
+                    LinkedIn↗
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 ) : (
