@@ -404,14 +404,7 @@ function Proof() {
       v: <CountUp to={30} suffix="+" />,
       l: "Years of enterprise technology experience",
     },
-    {
-      v: (
-        <>
-          <CountUp to={270} prefix="$" />M<M>+</M>
-        </>
-      ),
-      l: "Technology project value delivered",
-    },
+
     { v: <CountUp to={2} />, l: "Specialised technology companies" },
     { v: "West Africa", l: "Regional presence", small: true },
   ];
